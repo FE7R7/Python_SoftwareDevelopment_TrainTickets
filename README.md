@@ -1,4 +1,4 @@
-Python Software Development for Cloud
+Python / SQLAlchemy - Cloud Software Development
 
 Topic: Train Tickets Booking System
 
