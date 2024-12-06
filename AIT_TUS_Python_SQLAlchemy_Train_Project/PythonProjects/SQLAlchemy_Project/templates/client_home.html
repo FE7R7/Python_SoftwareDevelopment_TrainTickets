@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .button {
+            padding: 15px 30px;
+            margin: 10px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        td {
+            text-align: center;
+        }
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+        .id-action {
+            display: flex;
+            align-items: center;
+        }
+        .id-action input {
+            margin-right: 10px;
+            padding: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="title">Client Portal</h1>
+    <p>Welcome, Client! Here you can book train journeys.</p>
+
+    <!-- Buttons for global actions -->
+    <div class="actions">
+        <a href="{{ url_for('client_home') }}" class="button">Show All Journeys</a>
+        <a href="{{ url_for('home') }}" class="button">Home Page</a>
+    </div>
+
+    <br>
+
+    <h2>All Journeys</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Departure Station</th>
+            <th scope="col">Arrival</th>
+            <th scope="col">Train Type</th>
+            <th scope="col">Departure Time</th>
+            <th scope="col">Price</th>
+            <th scope="col">Book</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if journeys %}
+        {% for journey in journeys %}
+        <tr>
+            <td>{{ journey.id }}</td>
+            <td>{{ journey.departure_station }}</td>
+            <td>{{ journey.arrival_station }}</td>
+            <td>{{ journey.train_type }}</td>
+            <td>{{ journey.departure_time }}</td>
+            <td>${{ journey.price }}</td>
+            <td>
+                <div class="actions">
+                    <a href="{{ url_for('book_ticket', id=journey.id, destination=journey.arrival_station) }}"
+                       class="button">Book Ticket</a>
+
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="7">Please, click Show All button to check the available journeys.</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

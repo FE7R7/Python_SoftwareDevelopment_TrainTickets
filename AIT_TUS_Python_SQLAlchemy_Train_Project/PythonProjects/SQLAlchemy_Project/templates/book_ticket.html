@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Ticket</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f8f9fa;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        .button {
+            padding: 10px 20px;
+            margin: 20px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            display: inline-block; /* Ensure both are the same display type */
+            text-align: center; /* Ensure the content is aligned */
+            box-sizing: border-box; /* Include padding and border in total width/height */
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .success-message {
+            color: green;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Book Your Ticket</h1>
+
+<h3>Journey Details:</h3>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Departure Station</th>
+        <th>Arrival Station</th>
+        <th>Train Type</th>
+        <th>Departure Time</th>
+        <th>Price</th>
+    </tr>
+    {% if journey %}
+    <tr>
+        <td>{{ journey.id }}</td>
+        <td>{{ journey.departure_station }}</td>
+        <td>{{ journey.arrival_station }}</td>
+        <td>{{ journey.train_type }}</td>
+        <td>{{ journey.departure_time }}</td>
+        <td>${{ journey.price }}</td>
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="6">No journey selected.</td>
+    </tr>
+    {% endif %}
+</table>
+
+
+<form action="{{ request.path }}" method="POST">
+    <input type="hidden" name="journey_id" value="{{ journey.id }}">
+    <button type="submit" class="button">Book Ticket</button>
+    <a href="{{ url_for('book_ticket') }}" class="button">Client Page</a>
+</form>
+
+{% if success %}
+<div class="success-message">
+    Ticket booked successfully to {{ journey.arrival_station }}!<br>
+    Have a Pleasant journey!
+</div>
+{% endif %}
+
+
+</body>
+</html>

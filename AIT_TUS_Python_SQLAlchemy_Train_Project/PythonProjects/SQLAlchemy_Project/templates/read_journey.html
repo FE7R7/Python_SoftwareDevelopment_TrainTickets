@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read Journey</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            color: #333;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #007bff;
+            font-size: 36px;
+        }
+
+        h3 {
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px;
+            margin: 20px auto;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 60%;
+            text-align: left;
+        }
+
+        .form-container label {
+            color: #007bff;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-container input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .form-container input[readonly] {
+            background-color: #f0f0f0;
+        }
+
+        .form-container .buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .button {
+            padding: 12px 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .button:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Journey Details</h1>
+
+<div class="form-container">
+    <h3>Details about the Journey you requested:</h3>
+    <form action="{{ request.path }}" method="post">
+
+        <label for="departure_station">Departure Station</label>
+        <input id="departure_station" type="text" name="departure_station" value="{{ journey.departure_station }}"
+               readonly/>
+
+        <label for="arrival_station">Arrival Station</label>
+        <input id="arrival_station" type="text" name="arrival_station" value="{{ journey.arrival_station }}" readonly/>
+
+        <label for="train_type">Train Type</label>
+        <input id="train_type" type="text" name="train_type" value="{{ journey.train_type }}" readonly/>
+
+        <label for="departure_time">Departure Time</label>
+        <input id="departure_time" type="text" name="departure_time" value="{{ journey.departure_time }}" readonly/>
+
+        <label for="price">Price</label>
+        <input id="price" type="text" name="price" value="{{ journey.price }}" readonly/>
+    </form>
+
+    <div class="buttons">
+        <a href="{{ url_for('manager_home') }}" class="button">Manager Page</a>
+        <a href="{{ url_for('home') }}" class="button">Home Page</a>
+    </div>
+</div>
+
+</body>
+</html>

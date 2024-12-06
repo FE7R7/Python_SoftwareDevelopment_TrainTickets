@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .button {
+            padding: 15px 30px;
+            margin: 10px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        td {
+            text-align: center;
+        }
+        .actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .id-action {
+            display: flex;
+            align-items: center;
+        }
+        .id-action input {
+            margin-right: 10px;
+            padding: 5px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="title">Manager Dashboard</h1>
+    <p>Welcome, Manager! Here you can manage the train journeys.</p>
+
+    <div class="actions">
+        <a href="{{ url_for('create_journey') }}" class="button">Create Journey</a>
+        <a href="{{ url_for('manager_home') }}" class="button">Show All Journeys</a>
+        <a href="{{ url_for('home') }}" class="button">Home Page</a>
+    </div>
+
+    <br>
+
+    <!-- Actions by ID: Read, Update, Delete -->
+    <div>
+        <form class="id-action" action="/read" method="GET">
+            <input type="number" name="id" placeholder="Journey ID" required>
+            <button type="submit" class="button">Read by ID</button>
+        </form>
+
+        <form class="id-action" action="/update" method="GET">
+            <input type="number" name="id" placeholder="Journey ID" required>
+            <button type="submit" class="button">Update by ID</button>
+        </form>
+
+        <form class="id-action" action="/delete" method="POST"
+              onsubmit="return confirm('Are you sure you want to delete this journey?');">
+            <input type="number" name="id" placeholder="Journey ID" required>
+            <button type="submit" class="button">Delete by ID</button>
+        </form>
+    </div>
+
+    <h2>All Journeys</h2>
+
+    <!-- Journey Table -->
+    <table>
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Departure Station</th>
+            <th scope="col">Arrival</th>
+            <th scope="col">Train Type</th>
+            <th scope="col">Departure Time</th>
+            <th scope="col">Price</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if journeys %}
+        {% for journey in journeys %}
+        <tr>
+            <td>{{ journey.id }}</td>
+            <td>{{ journey.departure_station }}</td>
+            <td>{{ journey.arrival_station }}</td>
+            <td>{{ journey.train_type }}</td>
+            <td>{{ journey.departure_time }}</td>
+            <td>${{ journey.price }}</td>
+            <td>
+                <div class="actions">
+                    <a href="{{ url_for('update_journey', id=journey.id) }}" class="button">Update</a>
+                    <form action="{{ url_for('delete_journey') }}" method="POST" style="display:inline;">
+                        <input type="hidden" name="id" value="{{ journey.id }}">
+                        <button type="submit" class="button"
+                                onclick="return confirm('Are you sure you want to delete this journey?');">Delete
+                        </button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="7">No journeys available. Click the "Show All Journeys" button to load them.</td>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
